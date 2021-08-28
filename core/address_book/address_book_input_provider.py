@@ -12,7 +12,7 @@ class AddressBookInputProvider:
 
     def provide(self, command: Union[FunctionType, None], user_data: str) -> dict:
         if user_data is None or user_data == "":
-            return self.__parse_user_user_data_with_requests(command)
+            return self.__parse_user_data_with_requests(command)
         else:
             return self.__parse_user_data_from_scratch(user_data, command)
 
@@ -95,7 +95,7 @@ class AddressBookInputProvider:
     # Noising asking bot:
     ###############
 
-    def __parse_user_user_data_with_requests(self, command: Union[FunctionType, None]) -> dict:
+    def __parse_user_data_with_requests(self, command: Union[FunctionType, None]) -> dict:
         if command == AddressBook.add:
             return self.__parse_add_with_requests()
         elif command == AddressBook.change:
@@ -107,7 +107,7 @@ class AddressBookInputProvider:
         elif command == AddressBook.show_users_birthday:
             return self.__parse_show_birthdays_with_requests()
         else:
-            return {"error": "Underfined command provided for AddressBook."}
+            return {"error": "Undefined command provided for AddressBook."}
 
     def __parse_add_with_requests(self) -> dict:
         name = input("Please input a name: ")
