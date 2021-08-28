@@ -23,6 +23,10 @@ class ContextAnalyzer:
             responsible_module = AddressBook
             command = AddressBook.show_users_birthday
             user_data = " ".join(words[2:])
+        elif "add tag" in request:
+            responsible_module = NoteBook
+            command = NoteBook.add_tag_to_note
+            user_data = " ".join(words[2:])
         elif "sort" == words[0]:
             responsible_module = SortManager
             command = SortManager.sort
@@ -51,6 +55,8 @@ class ContextAnalyzer:
                 command = NoteBook.filter_for_tags
             elif "tag" == words[0]:
                 command = NoteBook.add_tag_to_note
+            elif "search" == words[0]:
+                command = NoteBook.search
 
             user_data = " ".join(words[2:])
 
