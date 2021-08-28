@@ -19,6 +19,10 @@ class ContextAnalyzer:
         if request == "off":
             responsible_module = "main"
             command = "off"
+        elif "show birthday" in request:
+            responsible_module = AddressBook
+            command = AddressBook.show_users_birthday
+            user_data = " ".join(words[2:])
         elif "sort" == words[0]:
             responsible_module = SortManager
             command = SortManager.sort
@@ -31,11 +35,8 @@ class ContextAnalyzer:
                 command = AddressBook.change
             elif "delete" == words[0]:
                 command = AddressBook.delete
-            elif "filter" == words[0]:
+            elif "search" == words[0]:
                 command = AddressBook.filter
-            elif "show birthday" in request:
-                # TODO: think about such case
-                command = AddressBook.show_users_birthday
 
             user_data = " ".join(words[2:])
         elif "note" == words[1]:
