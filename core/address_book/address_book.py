@@ -2,7 +2,7 @@ import core.common.db_config as db
 
 
 class AddressBook:
-    def add(self, name, phone, address, email, birthday):
+    def add(self, name, phone: int, address, email, birthday):
         """
         Створює новий запис в адресну книжку за вказаним іменем.
         :param request: dict - стрічка, де спочатку обов'язково йде ім'я, а потім одна або декілька інформацій в будь-якому порядку: адреса, номер тлф, email, день народження
@@ -17,7 +17,7 @@ class AddressBook:
         except db.sqlite3.Error as error:
             print("Something went wrong", error)
 
-    def change(self, name, value, field):
+    def change(self, name, value, field) -> str:
         """
         Змінює запис за вказаним іменем в адресній книзі.
         :param request: dict - стрічка, де спочатку обов'язково йде ім'я, а потім нова інформація (адреса, номер тлф, email чи день народження)
@@ -50,7 +50,7 @@ class AddressBook:
         except db.sqlite3.Error as error:
             print("Something went wrong", error)
 
-    def delete(self, name: str) -> str:
+    def delete(self, name: str):
         """
         Видаляє запис за вказаним іменем у адресній книзі. Акщо вхідна стрічка містить тільки ім'я, то видаляється все, що збережено за цим іменем.
         :param request: dict - стрічка, де спочатку обов'язково ім'я, а потім або інформація, яку треба видалити (адреса, номер тлф, email чи день народження)
@@ -63,7 +63,7 @@ class AddressBook:
         except db.sqlite3.Error as error:
             print("Something went wrong", error)
 
-    def filter(self, request: dict) -> str:
+    def filter(self, request: str):
         """
         Шукає інформацію в адресній книзі за співпадінням по введеній стрічці.
         :param request: dict - стрічка, за якою виконуємо пошук
@@ -78,10 +78,11 @@ class AddressBook:
         except db.sqlite3.Error as error:
             print("Something went wrong", error)
 
-    def show_users_birthday(self, interval):
+    def show_users_birthday(self, interval: int):
         """
         Знаходить користувачів, у яких день народження через задану кількість днів від поточної дати.: param days_number: - кількість днів, що додається до поточної дати.: return: - повертаємо стрічку з записом всіх імен користувачів ті їх днів народження, наприклад "ім'я: yyyy-mm-dd, \n ім'я: yyyy-mm-dd, \n...".
         """
+
         try:
             db.cur.execute(
                 f"""SELECT name FROM contacts WHERE strftime('%j', birthday) = strftime('%j', (date('now','+{interval} days'))) ;""")
