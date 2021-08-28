@@ -32,6 +32,8 @@ class NoteBookInputProvider:
             return self.__parse_filter_for_tags_user_data(user_data)
         elif command == NoteBook.search:
             return self.__parse_search_user_data(user_data)
+        elif command == NoteBook.get_table:
+            return {}
         else:
             return {"error": "Undefined command provided for NoteBook."}
 
@@ -97,6 +99,8 @@ class NoteBookInputProvider:
             return self.__parse_filter_for_tags_with_requests()
         elif command == NoteBook.search:
             return self.__parse_search_with_requests()
+        elif command == NoteBook.get_table:
+            return {}
         else:
             return {"error": "Undefined command provided for NoteBook."}
 
@@ -108,7 +112,7 @@ class NoteBookInputProvider:
 
     @staticmethod
     def __parse_add_tag_with_requests() -> dict:
-        note_table = NoteBook().get_table()
+        note_table = NoteBook().get_table({})
         print(f"Notes: \n{note_table}")
         identifier = input("Choose id number: ")
         if not identifier.isnumeric():
@@ -119,7 +123,7 @@ class NoteBookInputProvider:
 
     @staticmethod
     def __parse_change_with_requests() -> dict:
-        note_table = NoteBook().get_table()
+        note_table = NoteBook().get_table({})
         print(f"Notes: \n{note_table}")
         identifier = input("Choose id number: ")
         if not identifier.isnumeric():
@@ -130,7 +134,7 @@ class NoteBookInputProvider:
 
     @staticmethod
     def __parse_delete_with_requests() -> dict:
-        note_table = NoteBook().get_table()
+        note_table = NoteBook().get_table({})
         print(f"Notes: \n{note_table}")
         identifier = input("Choose id number: ")
         if not identifier.isnumeric():

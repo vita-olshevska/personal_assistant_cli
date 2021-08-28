@@ -40,4 +40,5 @@ class AddressBook:
         """
         pass
 
-
+    def get_records(self, request: dict) -> str:
+        pass
