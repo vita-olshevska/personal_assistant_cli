@@ -56,3 +56,6 @@ def phone_vrifi(phone_num):
 
 # for i in phone_list:
 #     print(phone_vrifi(i))
+
+
+def 
