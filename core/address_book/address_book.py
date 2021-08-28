@@ -1,4 +1,3 @@
-from typing import Text
 import db_config as db
 
 
