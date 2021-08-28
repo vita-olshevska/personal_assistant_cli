@@ -14,6 +14,9 @@ class ContextAnalyzer:
             - команду
             - все інше, що після імені
         """
+        if request == "":
+            return None, None, None
+
         responsible_module, command, user_data = None, None, None
         words = request.split()
         if request == "off":
@@ -22,6 +25,14 @@ class ContextAnalyzer:
         elif "show birthday" in request:
             responsible_module = AddressBook
             command = AddressBook.show_users_birthday
+            user_data = " ".join(words[2:])
+        elif "show record" in request:
+            responsible_module = AddressBook
+            command = AddressBook.get_records
+            user_data = " ".join(words[2:])
+        elif "show note" in request:
+            responsible_module = NoteBook
+            command = NoteBook.get_table
             user_data = " ".join(words[2:])
         elif "add tag" in request:
             responsible_module = NoteBook

@@ -31,6 +31,8 @@ class AddressBookInputProvider:
             return self.__parse_filter_user_data(user_data)
         elif command == AddressBook.show_users_birthday:
             return self.__parse_show_birthdays_user_data(user_data)
+        elif command == AddressBook.get_records:
+            return {}
         else:
             return {"error": "Undefined command provided for AddressBook."}
 
@@ -106,6 +108,8 @@ class AddressBookInputProvider:
             return self.__parse_filter_with_requests()
         elif command == AddressBook.show_users_birthday:
             return self.__parse_show_birthdays_with_requests()
+        elif command == AddressBook.get_records:
+            return {}
         else:
             return {"error": "Undefined command provided for AddressBook."}
 
