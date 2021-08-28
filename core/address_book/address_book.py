@@ -1,4 +1,4 @@
-import db_config as db
+import core.common.db_config as db
 
 
 class AddressBook:
