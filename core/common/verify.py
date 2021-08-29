@@ -61,20 +61,20 @@ form, please enter in 38XXXXXXXXXX format')
 
 # for i in phone_list:
 #     print(phone_verify(i))
-
-mail_ex = [
-            'Ima.Fool@iana.org',
-            'Ima.Fool@iana.o',
-            '1Fool@iana.org',
-            'first_last@iana.org   ',
-            'first.middle.last@iana.or',
-            'a@test.com',
-            '   abc111@test.com.net',
-            'sdfhb34@skjfnv.tyu',
-            'kjbщтщдтю.шгри@gfh.com',
-            'sefbijsefnvbjsenfvb',
-            '.@ggg.cok'
-            ]
+#
+# mail_ex = [
+#             'Ima.Fool@iana.org',
+#             'Ima.Fool@iana.o',
+#             '1Fool@iana.org',
+#             'first_last@iana.org   ',
+#             'first.middle.last@iana.or',
+#             'a@test.com',
+#             '   abc111@test.com.net',
+#             'sdfhb34@skjfnv.tyu',
+#             'kjbщтщдтю.шгри@gfh.com',
+#             'sefbijsefnvbjsenfvb',
+#             '.@ggg.cok'
+#             ]
 
 
 def email_verify(email):
@@ -96,31 +96,49 @@ The function accepts a string - email.
     # очистка пробелов вначале и в конце
     clean_email = email.strip()
 
-    # if re.search(r'@',clean_email) == None:
-    if re.fullmatch(r'[0-9a-zA-Z_.]+@+[a-zA-Z]+[.]+[a-zA-Z]{2,3}', clean_email) == None:
+    if re.fullmatch(r'[0-9a-zA-Z_.]+@[a-zA-Z]+[.][a-zA-Z]{2,3}', clean_email) == None:
         return (None, 'The text you entered is not an e-mail, please try again')
     else:
         return (clean_email, None)
 
-for i in mail_ex:
-    print(email_verify(i))
+# for i in mail_ex:
+#     print(email_verify(i))
 
-date_list = [
-            '2013-05-13',
-            'dsfg-se-fb',
-            '13-05-2022',
-            '1235+23=34'
-            ]
+# date_list = [
+#             '2013-05-13',
+#             'dsfg-se-fb',
+#             '13-05-2022',
+#             '1235+23=34',
+#             '1233-14-31',
+#             '0000-00-00',
+#             '4568-09-44',
+#             '2022-12-31'
+#             ]
 def birthday_verify(birthday):
     """
-
+    The function takes a string.
+    Verification criteria:
+    - format 'YYYY-MM-DD'
+    - the number of months in a year is less than or equal to 12
+    - the number of days is less than or equal to 31
+     Returns a tuple with 2 elements:
+     - if the date meets the verification criteria, then a tuple of the form ('YYYY-MM-DD', None)
+    - if it does not satisfy that of the form (None, 'error description for the user')
     """
     clean_birthday = birthday.strip()
     if re.fullmatch(r'\d{4}-\d{2}-\d{2}', clean_birthday) == None:
         return (None, 'The text you entered is not a date in format YYYY-MM-DD, \
 please try again')
     else:
-        return(clean_birthday, None)
+        if int(clean_birthday.split('-')[1]) > 12:
+            return (None, 'Only 12 months we have, or maby you from another planet? \
+If it is true please contact with - www.nasa.gov)Or try again.')
+        elif int(clean_birthday.split('-')[2]) > 31:
+            return (None, 'There can be no more days in the month 31) Try again.')
+        elif clean_birthday == '0000-00-00':
+            return (clean_birthday, "You urgently need to listen to Weber's rock opera Jesus Christ - Superstar, 1971!!!!!")
+        else:
+            return(clean_birthday, None)
 
 
 # for i in date_list:
