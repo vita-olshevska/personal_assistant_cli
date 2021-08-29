@@ -1,43 +1,51 @@
 class AddressBook:
     def add(self, request: str) -> str:
         """
-        Створює новий запис в адресну книжку за вказаним іменем.
-        :param request: str - стрічка, де спочатку обов'язково йде ім'я, а потім одна або декілька інформацій в будь-якому порядку: адреса, номер тлф, email, день народження
-        :return: str - виводить (повертає) стрічку з повідомленням користувачу, де каже, що все добре і все добавлено, або вказує, що є помилка і яка.
+        Creates a new entry in the address book by the specified name.
+        :param request: str - string, where first the
+        name goes, and then one or more information in any order: address, phone number, email, birthday
+        :return: str - returns a string with a message to the user, where he says that everything is fine and everything
+         is added,
+        or indicates that there is an error and what exactly.
         """
         pass
 
     def change(self, request: str) -> str:
         """
-        Змінює запис за вказаним іменем в адресній книзі.
-        :param request: str - стрічка, де спочатку обов'язково йде ім'я, а потім нова інформація (адреса, номер тлф, email чи день народження)
-        :return: str - повертає повідомлення користувачу, де каже, що все добре і змінено, або вказує, що є помилка і яка.
+        Changes the record for the specified name in the address book.
+        :param request: str - string, where first the name must be followed, and then new information (address, phone
+        number, email or birthday)
+        :return: str - returns a message to the user, where he says that everything is fine and changed, or indicates
+        that there is an error and what.
         """
         pass
 
     def delete(self, request: str) -> str:
         """
-        Видаляє запис за вказаним іменем у адресній книзі. Акщо вхідна стрічка містить тільки ім'я, то видаляється все, що збережено за цим іменем.
-        :param request: str - стрічка, де спочатку обов'язково ім'я, а потім або інформація, яку треба видалити (адреса, номер тлф, email чи день народження)
-        :return: str - повертає повідомлення користувачу, де каже, що все добре і видалено, або вказує, що є помилка і яка.
+        Deletes the record for the specified name in the address book. If the input tape contains only the name,
+        everything saved by that name is deleted.
+        :param request: str - a string where first the name is obligatory, and then or the information which needs to be
+        deleted (address, phone number, email or birthday)
+        :return: str - returns a message to the user, where he says that everything is fine and deleted, or indicates
+        that there is an error and what.
         """
         pass
 
     def filter(self, request: str) -> str:
         """
-        Шукає інформацію в адресній книзі за співпадінням по введеній стрічці.
-        :param request: str - стрічка, за якою виконуємо пошук
-        :return: str - повертає стрічку, де записана вся інформаційна лінія (імя, email, тлф, день народження), в якій було співпадіння. Якщо таких ліній декілька, то вони всі
-        в стрічці розділені знаком \n. Якщо співпадіння немає, або помилка, то повертає стрічку-повідомлення про це.
+        Searches for information in the address book by coincidence on the entered string.
+        :param request: str - the string we are searching for
+        :return: str - returns the string, which contains the entire information line (name, email, phone, birthday), in
+        which there was a match. If there are several such lines, they are all separated in the string by a sign \n. If
+        there is no match, or an error, it returns a message about it.
         """
         pass
 
     def show_users_birthday(self, days_number: int) -> str:
         """
-        Знаходить користувачів, у яких день народження через задану кількість днів від поточної дати.
-        :param days_number: - кількість днів, що додається до поточної дати.
-        :return:  - повертаємо стрічку з записом всіх імен користувачів ті їх днів народження, наприклад "ім'я: yyyy-mm-dd, \n ім'я: yyyy-mm-dd, \n...".
+        Finds users whose birthday is a specified number of days from the current date.
+        :param days_number: the number of days added to the current date.
+        :return:  returns a string with record of all names of users and their birthdays, for example "name: yyyy-mm-dd,
+        \n name: yyyy-mm-dd, \n ...".
         """
         pass
-
-
