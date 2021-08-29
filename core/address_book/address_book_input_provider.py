@@ -1,5 +1,6 @@
 from core.address_book.address_book import AddressBook
 from core.common.identifier import Identifier
+from core.common.verify import phone_verify, email_verify, birthday_verify
 
 from types import FunctionType
 from typing import Union
@@ -117,19 +118,63 @@ class AddressBookInputProvider:
         name = input("Please input a name: ")
         choice = input("Choose a number: 1 - Phone, 2 - Email, 3 - Birthday, 4 - Address ")
         if choice not in self.__information_type:
-            return {"error": f"Wrong number: {choice}"}
+            return {"error": f"Wrong number: {choice}, please enter from 1 to 4"}
 
-        information = input("Input information: ")
-        return {"name": name, self.__information_type[choice]: information}
+        if choice == "1":
+            information = input(f"Input phone number in format 38XXXXXXXXXX: ")
+            phone_verification_result, error_message = phone_verify(information)
+            if not phone_verification_result:
+                return {"error": error_message}
+            else:
+                return {"name": name, self.__information_type[choice]: phone_verification_result}
+        elif choice == "2":
+            information = input(f"Input email in format your_mail@your.domain: ")
+            email_verification_result, error_message = email_verify(information)
+            if not email_verification_result:
+                return {"error": error_message}
+            else:
+                return {"name": name, self.__information_type[choice]: email_verification_result}
+        elif choice == "3":
+            information = input(f"Input birthday in format YYYY-MM-DD: ")
+            birthday_verification_result, error_message = birthday_verify(information)
+            if not birthday_verification_result:
+                return {"error": error_message}
+            else:
+                return {"name": name, self.__information_type[choice]: birthday_verification_result}
+        elif choice == "4":
+            information = input(f"Input address: ")
+            return {"name": name, self.__information_type[choice]: information}
 
     def __parse_change_with_requests(self) -> dict:
         name = input("Please input a name: ")
         choice = input("Choose a number: 1 - Phone, 2 - Email, 3 - Birthday, 4 - Address ")
         if choice not in self.__information_type:
-            return {"error": f"Wrong number: {choice}"}
+            return {"error": f"Wrong number: {choice}, please enter from 1 to 4"}
 
-        information = input("Input information: ")
-        return {"name": name, self.__information_type[choice]: information}
+        if choice == "1":
+            information = input(f"Input phone number in format 38XXXXXXXXXX: ")
+            phone_verification_result, error_message = phone_verify(information)
+            if not phone_verification_result:
+                return {"error": error_message}
+            else:
+                return {"name": name, self.__information_type[choice]: phone_verification_result}
+        elif choice == "2":
+            information = input(f"Input email in format your_mail@your.domain: ")
+            email_verification_result, error_message = email_verify(information)
+            if not email_verification_result:
+                return {"error": error_message}
+            else:
+                return {"name": name, self.__information_type[choice]: email_verification_result}
+        elif choice == "3":
+            information = input(f"Input birthday in format YYYY-MM-DD: ")
+            birthday_verification_result, error_message = birthday_verify(information)
+            if not birthday_verification_result:
+                return {"error": error_message}
+            else:
+                return {"name": name, self.__information_type[choice]: birthday_verification_result}
+        elif choice == "4":
+            information = input(f"Input address: ")
+            return {"name": name, self.__information_type[choice]: information}
 
     @staticmethod
     def __parse_delete_with_requests() -> dict:
