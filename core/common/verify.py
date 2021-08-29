@@ -1,22 +1,4 @@
-# тут написаны функции верификации телефонных номеров и email
 import re
-
-# примеры нломеров в списке
-# phone_list = [
-#             '234556',
-#             '   i87ваи6796вкаи876',
-#             '657483 6720267bh725294',
-#             '+380665674521',
-#             '  80970005647',
-#             '+380667  778889',
-#             '1010101010',
-#             '11111111111',
-#             '121212121212',
-#             '0978884567',
-#             '80667775566',
-#             '380630051810',
-#             ''
-#             ]
 
 def phone_verify(phone_num):
     """
@@ -59,24 +41,6 @@ form, please enter in 38XXXXXXXXXX format')
 form, please enter in 38XXXXXXXXXX format')
 
 
-# for i in phone_list:
-#     print(phone_verify(i))
-#
-# mail_ex = [
-#             'Ima.Fool@iana.org',
-#             'Ima.Fool@iana.o',
-#             '1Fool@iana.org',
-#             'first_last@iana.org   ',
-#             'first.middle.last@iana.or',
-#             'a@test.com',
-#             '   abc111@test.com.net',
-#             'sdfhb34@skjfnv.tyu',
-#             'kjbщтщдтю.шгри@gfh.com',
-#             'sefbijsefnvbjsenfvb',
-#             '.@ggg.cok'
-#             ]
-
-
 def email_verify(email):
     """
 The function accepts a string - email.
@@ -101,19 +65,6 @@ The function accepts a string - email.
     else:
         return (clean_email, None)
 
-# for i in mail_ex:
-#     print(email_verify(i))
-
-# date_list = [
-#             '2013-05-13',
-#             'dsfg-se-fb',
-#             '13-05-2022',
-#             '1235+23=34',
-#             '1233-14-31',
-#             '0000-00-00',
-#             '4568-09-44',
-#             '2022-12-31'
-#             ]
 def birthday_verify(birthday):
     """
     The function takes a string.
@@ -139,7 +90,3 @@ If it is true please contact with - www.nasa.gov)Or try again.')
             return (clean_birthday, "You urgently need to listen to Weber's rock opera Jesus Christ - Superstar, 1971!!!!!")
         else:
             return(clean_birthday, None)
-
-
-# for i in date_list:
-#     print(birthday_verify(i))
