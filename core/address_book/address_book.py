@@ -1,10 +1,13 @@
 class AddressBook:
     def add(self, request: dict) -> str:
         """
-        Створює новий запис в адресну книжку за вказаним іменем.
-        :param request: dict - стрічка, де спочатку обов'язково йде ім'я, а потім одна або декілька інформацій в будь-якому порядку: адреса, номер тлф, email, день народження
-        :return: str - виводить (повертає) стрічку з повідомленням користувачу, де каже, що все добре і все добавлено, або вказує, що є помилка і яка.
+         Creates a new entry in the address book by the specified name.
+        :param request: str - string, where first the
+        name goes, and then one or more information in any order: address, phone number, email, birthday
+        :return: str - returns a string with a message to the user, where he says that everything is fine and everything
+         is added, or indicates that there is an error and what exactly.
         """
+
         pass
 
     def change(self, request: dict) -> str:
