@@ -99,5 +99,5 @@ def email_verify(email):
     else:
         return (clean_email, None)
 
-for i in mail_ex:
-    print(email_verify(i))
+# for i in mail_ex:
+#     print(email_verify(i))
