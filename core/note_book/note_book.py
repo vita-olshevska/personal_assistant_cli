@@ -62,11 +62,11 @@ class NoteBook:
             print("Something went wrong. Check your id", error)
         return 'Tag added'
 
-    def search(self, key: str):
+    def search(self, arg):
         result = ''
         try:
             db.cur.execute(
-                """SELECT * FROM notes WHERE note like ? ;""", ('%'+key+'%'))
+                """SELECT * FROM notes WHERE note like ? ;""", ('%'+arg['phrase']+'%'))
             for i in db.cur.fetchall():
                 result += str(i[0]) + '\n'
         except db.sqlite3.Error as error:

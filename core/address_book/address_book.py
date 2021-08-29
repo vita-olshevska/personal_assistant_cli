@@ -68,7 +68,7 @@ class AddressBook:
             print("Something went wrong", error)
         return f'Record {arg["name"]} deleted'
 
-    def filter(self, request: str):
+    def filter(self, arg):
         """
         Шукає інформацію в адресній книзі за співпадінням по введеній стрічці.
         :param request: dict - стрічка, за якою виконуємо пошук
@@ -76,9 +76,10 @@ class AddressBook:
         в стрічці розділені знаком \n. Якщо співпадіння немає, або помилка, то повертає стрічку-повідомлення про це.
         """
         result = ''
+
         try:
             db.cur.execute(
-                """SELECT * FROM contacts WHERE name like ? OR phone like ? OR email like ? OR birthday like ?;""", ('%'+request+'%', '%'+request+'%', '%'+request+'%', '%'+request+'%'))
+                """SELECT * FROM contacts WHERE name like ? OR phone like ? OR email like ? OR birthday like ?;""", ('%'+arg['phrase']+'%', '%'+arg['phrase']+'%', '%'+arg['phrase']+'%', '%'+arg['phrase']+'%'))
             for i in db.cur.fetchall():
                 result += str(i) + '\n'
         except db.sqlite3.Error as error:
@@ -88,14 +89,14 @@ class AddressBook:
         else:
             return result
 
-    def show_users_birthday(self, interval: int):
+    def show_users_birthday(self, arg):
         """
         Знаходить користувачів, у яких день народження через задану кількість днів від поточної дати.: param days_number: - кількість днів, що додається до поточної дати.: return: - повертаємо стрічку з записом всіх імен користувачів ті їх днів народження, наприклад "ім'я: yyyy-mm-dd, \n ім'я: yyyy-mm-dd, \n...".
         """
         result = ''
         try:
             db.cur.execute(
-                f"""SELECT name FROM contacts WHERE strftime('%j', birthday) = strftime('%j', (date('now','+{interval} days'))) ;""")
+                f"""SELECT name FROM contacts WHERE strftime('%j', birthday) = strftime('%j', (date('now','+{arg['days']} days'))) ;""")
             for i in db.cur.fetchall():
                 result += str(i[0]) + '\n'
         except db.sqlite3.Error as error:
