@@ -18,7 +18,7 @@ class AddressBook:
             print("Something went wrong", error)
         return 'Record added'
 
-    def change(self, arg) -> str:
+    def change(self, arg):
         """
         Змінює запис за вказаним іменем в адресній книзі.
         :param request: dict - стрічка, де спочатку обов'язково йде ім'я, а потім нова інформація (адреса, номер тлф, email чи день народження)
