@@ -9,14 +9,28 @@ class AddressBook:
         :return: str - виводить (повертає) стрічку з повідомленням користувачу, де каже, що все добре і все добавлено, або вказує, що є помилка і яка.
         """
         fields = list(arg.keys())
-        add_record = (arg[fields[0]], arg[fields[1]])
         try:
-            db.cur.execute(f"""INSERT INTO contacts(name, {fields[1]})
-        VALUES(?, ?);""", add_record)
-            db.conn.commit()
+            db.cur.execute(
+                """SELECT count(*) FROM contacts WHERE name = ?;""", (arg['name'],))
+            all_results = db.cur.fetchall()
+            if all_results[0][0] == 1:
+                db.cur.execute(
+                    f"""SELECT {fields[1]} FROM contacts WHERE name = ?;""", (arg['name'],))
+                all_results = db.cur.fetchall()
+                if all_results[0][0] == None:
+                    AddressBook.change(self, arg)
+                    return f'{fields[1]} changed'
+                else:
+                    return f'For record {arg["name"]}, {fields[1]} is already exist. Please use "Change" function'
+            else:
+
+                add_record = (arg[fields[0]], arg[fields[1]])
+                db.cur.execute(f"""INSERT INTO contacts(name, {fields[1]})
+                    VALUES(?, ?);""", add_record)
+                db.conn.commit()
+                return 'Record added'
         except db.sqlite3.Error as error:
             print("Something went wrong", error)
-        return 'Record added'
 
     def change(self, arg):
         """
@@ -24,34 +38,20 @@ class AddressBook:
         :param request: dict - стрічка, де спочатку обов'язково йде ім'я, а потім нова інформація (адреса, номер тлф, email чи день народження)
         :return: str - повертає повідомлення користувачу, де каже, що все добре і змінено, або вказує, що є помилка і яка.
         """
-        fields = list(arg.keys())
-        update_note = (arg[fields[1]], arg[fields[0]])
-        if fields[1] == 'name':
-            sql = """UPDATE contacts
-              SET name = ?
-              WHERE name = ?"""
-        elif fields[1] == 'phone':
-            sql = """UPDATE contacts
-              SET phone = ?
-              WHERE name = ?"""
-        elif fields[1] == 'address':
-            sql = """UPDATE contacts
-              SET address = ?
-              WHERE name = ?"""
-        elif fields[1] == 'email':
-            sql = """UPDATE contacts
-              SET email = ?
-              WHERE name = ?"""
-        elif fields[1] == 'birthday':
-            sql = """UPDATE contacts
-              SET birthday = ?
-              WHERE name = ?"""
+
         try:
+            for key in arg.keys():
+                if key != "name":
+                    update_note = (arg[key], arg["name"])
+                    sql = f"""UPDATE contacts
+                    SET {key} = ?
+                    WHERE name = ?"""
+                    field = key
             db.cur.execute(sql, update_note)
             db.conn.commit()
         except db.sqlite3.Error as error:
             print("Something went wrong", error)
-        return f'{fields[1]} changed'
+        return f'{field} changed'
 
     def delete(self, arg):
         """
