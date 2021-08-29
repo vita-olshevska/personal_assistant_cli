@@ -51,8 +51,8 @@ class NoteBook:
             return result
 
     def add_tag_to_note(self, arg):
-        fields = list(arg.keys())
-        add_tag = (arg[fields[1]], arg[fields[0]])
+        add_tag = (arg['tag'], arg['id'])
+
         try:
             db.cur.execute("""UPDATE notes
                 SET tag = ?
@@ -81,6 +81,7 @@ class NoteBook:
             db.cur.execute(
                 """SELECT * FROM notes ;""")
             for i in db.cur.fetchall():
+                print(' id ', ' tag ', ' note ')
                 print(i, end='\n')
         except db.sqlite3.Error as error:
             print("Something went wrong", error)
