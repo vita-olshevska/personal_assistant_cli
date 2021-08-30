@@ -41,6 +41,11 @@ class AddressBook:
         """
 
         try:
+            db.cur.execute(
+                """SELECT count(*) FROM contacts WHERE name = ?;""", (arg['name'],))
+            all_results = db.cur.fetchall()
+            if all_results[0][0] == 0:
+                return f'Sorry, AddressBook has no record {arg["name"]}'
             for key in arg.keys():
                 if key != "name":
                     update_note = (arg[key], arg["name"])
@@ -98,9 +103,12 @@ class AddressBook:
         :return:  returns a string with all names of users and their birthdays, for example "name: yyyy-mm-dd, \n name: yyyy-mm-dd, \n ...".
         """
         result = ''
+        val = arg['days'] + 1
         try:
+            # db.cur.execute(
+            #    f"""SELECT name, birthday FROM contacts WHERE strftime('%j', birthday) = strftime('%j', (date('now','+{val} day'))) ;""")
             db.cur.execute(
-                f"""SELECT name, birthday FROM contacts WHERE strftime('%j', birthday) = strftime('%j', (date('now','+{arg['days']} days'))) ;""")
+                f"""SELECT name, birthday FROM contacts WHERE strftime('%j', birthday) BETWEEN strftime('%j', date('now', '+1 day')) AND strftime('%j', (date('now','+{val} day')));""")
             for i in db.cur.fetchall():
                 result += str(i[0]) + ': ' + str(i[1]) + '\n'
         except db.sqlite3.Error as error:
