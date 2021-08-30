@@ -67,9 +67,15 @@ class AddressBook:
         """
 
         try:
-            db.cur.execute("""DELETE FROM contacts
+            db.cur.execute(
+                """SELECT count(*) FROM contacts WHERE name = ?;""", (arg['name'],))
+            all_results = db.cur.fetchall()
+            if all_results[0][0] == 0:
+                return f'Sorry, AddressBook has no record {arg["name"]}'
+            else:
+                db.cur.execute("""DELETE FROM contacts
               WHERE name = ?""", (arg['name'],))
-            db.conn.commit()
+                db.conn.commit()
         except db.sqlite3.Error as error:
             return f"Something went wrong, {error}"
         return f'Record {arg["name"]} deleted'
