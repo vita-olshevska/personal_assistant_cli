@@ -1,3 +1,5 @@
+from core.common.db_config import conn, cur
+
 from core.address_book.address_book import AddressBook
 from core.address_book.address_book_input_provider import AddressBookInputProvider
 
@@ -45,6 +47,8 @@ if __name__ == "__main__":
                 answer = "Wrong command for SortManager module."
         elif responsible_module == "main":
             if command == "off":
+                cur.close()
+                conn.close()
                 print("Good bye!")
                 break
             else:

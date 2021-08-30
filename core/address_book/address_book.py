@@ -22,7 +22,7 @@ class AddressBook:
                     AddressBook.change(self, arg)
                     return f'{fields[1]} changed'
                 else:
-                    return f'For record {arg["name"]}, {fields[1]} is already exist. Please use "Change" function'
+                    return f'For record {arg["name"]}, {fields[1]} is already exist. Please use the next command: "change"'
             else:
 
                 add_record = (arg[fields[0]], arg[fields[1]])
@@ -79,8 +79,11 @@ class AddressBook:
         try:
             db.cur.execute(
                 """SELECT * FROM contacts WHERE name like ? OR phone like ? OR email like ? OR birthday like ?;""", ('%'+arg['phrase']+'%', '%'+arg['phrase']+'%', '%'+arg['phrase']+'%', '%'+arg['phrase']+'%'))
-            for i in db.cur.fetchall():
-                result += str(i) + '\n'
+            response = db.cur.fetchall()
+            if len(response) > 0:
+                result += "Name Phone Address Email Birthday\n"
+                for i in response:
+                    result += f"{i[1]} {i[2]} {i[3]} {i[4]} {i[5]}\n"
         except db.sqlite3.Error as error:
             return f"Something went wrong, {error}"
         if result == '':
@@ -112,8 +115,11 @@ class AddressBook:
         try:
             db.cur.execute(
                 f"""SELECT * FROM contacts ;""")
-            for i in db.cur.fetchall():
-                result += str(i) + '\n'
+            response = db.cur.fetchall()
+            if len(response) > 0:
+                result += "Name Phone Address Email Birthday\n"
+                for i in response:
+                    result += f"{i[1]} {i[2]} {i[3]} {i[4]} {i[5]}\n"
         except db.sqlite3.Error as error:
             return f"Something went wrong, {error}"
         if result == '':
