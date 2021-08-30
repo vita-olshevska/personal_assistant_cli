@@ -17,21 +17,25 @@ def phone_verify(phone_num):
     - if it does not satisfy that of the form (None, 'error description for
     the user')
     """
-    # проверка на наличие букв - исключения
+    # check for letters - exceptions
     if re.search(r'[a-zA-ZА-Яа-я]', phone_num) != None:
         return (None, 'Some letters in the entered number, and this is not in \
 form, please enter in 38XXXXXXXXXX format')
+    # check for spaces or '-' - exception
+    elif re.search(r' ', phone_num) != None or re.search(r'-', phone_num) != None:
+        return (None, 'There is some holes in the entered number, please enter \
+in 38XXXXXXXXXX format')
     else:
-        # удаление символов
+        # delete characters non digits
         clean_phone_num = re.sub(r'\D', '', phone_num)
-        # проверка количества цифр
+        # check the number of digits
         for i in range(10,13):
             preffix = '380'
             if len(clean_phone_num) == i:
-                # проверка префикса номера
+                # number prefix check
                 if clean_phone_num.startswith(preffix[12 - i:len(preffix)]):
-                # форматирование номера если удовлетворительное количество
-                # цифр от 10 до 12
+                # formatting the number if a satisfactory number of digits is
+                # from 10 to 12
                     verifi_phone_num = preffix[0:(12 - i)] + clean_phone_num
                     return (verifi_phone_num, None)
                 else:
@@ -57,13 +61,16 @@ The function accepts a string - email.
     - if it does not satisfy that of the form (None, 'error description
     for the user')
     """
-    # очистка пробелов вначале и в конце
+    # clearing space at the beginning and at the end
     clean_email = email.strip()
-
-    if re.fullmatch(r'[0-9a-zA-Z_.]+@[a-zA-Z]+[.][a-zA-Z]{2,3}', clean_email) == None:
-        return (None, 'The text you entered is not an e-mail, please try again')
+    if re.search(r' ', clean_email) != None or re.search(r'-', clean_email) != None:
+        return (None, 'There is some holes in the entered email, please enter \
+correct email')
     else:
-        return (clean_email, None)
+        if re.fullmatch(r'[0-9a-zA-Z_.]+@[a-zA-Z]+[.]*[a-zA-Z]+[.][a-zA-Z]{2,3}', clean_email) == None:
+            return (None, 'The text you entered is not an e-mail, please try again')
+        else:
+            return (clean_email, None)
 
 def birthday_verify(birthday):
     """
@@ -77,16 +84,18 @@ def birthday_verify(birthday):
     - if it does not satisfy that of the form (None, 'error description for the user')
     """
     clean_birthday = birthday.strip()
-    if re.fullmatch(r'\d{4}-\d{2}-\d{2}', clean_birthday) == None:
+    # check for format YYYY-MM-DD
+    if re.fullmatch(r'\d{4}-\d{1,2}-\d{1,2}', clean_birthday) == None:
         return (None, 'The text you entered is not a date in format YYYY-MM-DD, \
 please try again')
     else:
-        if int(clean_birthday.split('-')[1]) > 12:
-            return (None, 'Only 12 months we have, or maby you from another planet? \
-If it is true please contact with - www.nasa.gov)Or try again.')
-        elif int(clean_birthday.split('-')[2]) > 31:
-            return (None, 'There can be no more days in the month 31) Try again.')
-        elif clean_birthday == '0000-00-00':
-            return (clean_birthday, "You urgently need to listen to Weber's rock opera Jesus Christ - Superstar, 1971!!!!!")
-        else:
-            return(clean_birthday, None)
+        try:
+            # check that date is now or in past
+            if datetime.strptime(clean_birthday, '%Y-%m-%d').date() >= datetime.today().date():
+                return (None, 'The date you entered in the future! Try again in format YYYY-MM-DD')
+            else:
+                return clean_birthday
+        except ValueError:
+            # this except for error in datetime.strptime(clean_birthday, '%Y-%m-%d').date()
+            return (None, 'The date you entered cannot exist in our world, all apologies \
+and please try again')
