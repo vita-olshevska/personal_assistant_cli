@@ -4,10 +4,11 @@ import core.common.db_config as db
 class AddressBook:
     def add(self, arg):
         """
-        Створює новий запис в адресну книжку за вказаним іменем.
-        :param request: dict - стрічка, де спочатку обов'язково йде ім'я, а потім одна або декілька інформацій в будь-якому порядку: адреса, номер тлф, email, день народження
-        :return: str - виводить (повертає) стрічку з повідомленням користувачу, де каже, що все добре і все добавлено, або вказує, що є помилка і яка.
+        Creates a new record in the address book by the specified name.
+        :param request: dict - dictionary, where first the name goes, and then one or more information in any order: address, phone number, email, birthday (e.g. {‘name’: ‘John’, ‘email’: john@gmail.com})
+        :return: str - returns a string with a message to the user, whether everything is fine and everything is added, or indicates that there is an error and what exactly.
         """
+
         fields = list(arg.keys())
         try:
             db.cur.execute(
@@ -30,13 +31,13 @@ class AddressBook:
                 db.conn.commit()
                 return 'Record added'
         except db.sqlite3.Error as error:
-            print("Something went wrong", error)
+            return f"Something went wrong, {error}"
 
     def change(self, arg):
         """
-        Змінює запис за вказаним іменем в адресній книзі.
-        :param request: dict - стрічка, де спочатку обов'язково йде ім'я, а потім нова інформація (адреса, номер тлф, email чи день народження)
-        :return: str - повертає повідомлення користувачу, де каже, що все добре і змінено, або вказує, що є помилка і яка.
+        Changes the record for the specified name in the address book.
+        :param request: dict - dictionary, where first the name must be followed, and then new information (address, phone number, email or birthday)
+        :return: str - returns a message to the user, whether everything is fine and changed, or indicates that there is an error and what.
         """
 
         try:
@@ -50,14 +51,14 @@ class AddressBook:
             db.cur.execute(sql, update_note)
             db.conn.commit()
         except db.sqlite3.Error as error:
-            print("Something went wrong", error)
+            return f"Something went wrong, {error}"
         return f'{field} changed'
 
     def delete(self, arg):
         """
-        Видаляє запис за вказаним іменем у адресній книзі. Акщо вхідна стрічка містить тільки ім'я, то видаляється все, що збережено за цим іменем.
-        :param request: dict - стрічка, де спочатку обов'язково ім'я, а потім або інформація, яку треба видалити (адреса, номер тлф, email чи день народження)
-        :return: str - повертає повідомлення користувачу, де каже, що все добре і видалено, або вказує, що є помилка і яка.
+        Deletes the record for the specified name in the address book.
+        :param request: dict - a dictionary containing the name for which you want to delete the record (e.g. {‘name’: ‘John’})
+        :return: str - returns a message to the user, whether everything is fine and deleted, or indicates that there is an error and what.
         """
 
         try:
@@ -65,25 +66,23 @@ class AddressBook:
               WHERE name = ?""", (arg['name'],))
             db.conn.commit()
         except db.sqlite3.Error as error:
-            print("Something went wrong", error)
+            return f"Something went wrong, {error}"
         return f'Record {arg["name"]} deleted'
 
     def filter(self, arg):
         """
-        Шукає інформацію в адресній книзі за співпадінням по введеній стрічці.
-        :param request: dict - стрічка, за якою виконуємо пошук
-        :return: str - повертає стрічку, де записана вся інформаційна лінія (імя, email, тлф, день народження), в якій було співпадіння. Якщо таких ліній декілька, то вони всі
-        в стрічці розділені знаком \n. Якщо співпадіння немає, або помилка, то повертає стрічку-повідомлення про це.
+        Searches for information in the address book by coincidence on the entered string.
+        :param request: dict - the dictionary with the value we are searching for (e.g. {‘phrase’: ‘John’})
+        :return: str - returns the string, which contains the entire information line (name, email, phone, birthday), in which there was a match. If there are several such lines, they are all separated in the string by a sign \n. If there is no match, or an error, it returns a message about it.
         """
         result = ''
-
         try:
             db.cur.execute(
                 """SELECT * FROM contacts WHERE name like ? OR phone like ? OR email like ? OR birthday like ?;""", ('%'+arg['phrase']+'%', '%'+arg['phrase']+'%', '%'+arg['phrase']+'%', '%'+arg['phrase']+'%'))
             for i in db.cur.fetchall():
                 result += str(i) + '\n'
         except db.sqlite3.Error as error:
-            print("Something went wrong", error)
+            return f"Something went wrong, {error}"
         if result == '':
             return 'No matches'
         else:
@@ -91,16 +90,18 @@ class AddressBook:
 
     def show_users_birthday(self, arg):
         """
-        Знаходить користувачів, у яких день народження через задану кількість днів від поточної дати.: param days_number: - кількість днів, що додається до поточної дати.: return: - повертаємо стрічку з записом всіх імен користувачів ті їх днів народження, наприклад "ім'я: yyyy-mm-dd, \n ім'я: yyyy-mm-dd, \n...".
+        Finds users whose birthday is a specified number of days from the current date.
+        :param days_number: dict - the number of days (type: int) added to the current date (e.g. {‘days’, 36}).
+        :return:  returns a string with all names of users and their birthdays, for example "name: yyyy-mm-dd, \n name: yyyy-mm-dd, \n ...".
         """
         result = ''
         try:
             db.cur.execute(
-                f"""SELECT name FROM contacts WHERE strftime('%j', birthday) = strftime('%j', (date('now','+{arg['days']} days'))) ;""")
+                f"""SELECT name, birthday FROM contacts WHERE strftime('%j', birthday) = strftime('%j', (date('now','+{arg['days']} days'))) ;""")
             for i in db.cur.fetchall():
-                result += str(i[0]) + '\n'
+                result += str(i[0]) + ': ' + str(i[1]) + '\n'
         except db.sqlite3.Error as error:
-            print("Something went wrong", error)
+            return f"Something went wrong, {error}"
         if result == '':
             return 'No birthdays in this day'
         else:
@@ -114,7 +115,7 @@ class AddressBook:
             for i in db.cur.fetchall():
                 result += str(i) + '\n'
         except db.sqlite3.Error as error:
-            print("Something went wrong", error)
+            return f"Something went wrong, {error}"
         if result == '':
             return 'Address book is empty yet'
         else:
