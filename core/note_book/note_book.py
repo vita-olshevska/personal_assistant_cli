@@ -112,9 +112,9 @@ class NoteBook:
         try:
             db.cur.execute(
                 """SELECT * FROM notes ;""")
+            result += 'Id ' + '   Tag   ' + '   Note   ' + '\n'
             for i in db.cur.fetchall():
-                result += 'id ' + '   tag   ' + '   note   ' + '\n'
-                result += str(i) + '\n'
+                result += f"{i[0]} {i[1]} '{i[2]}'\n"
             return result
         except db.sqlite3.Error as error:
             return f"Something went wrong, {error}"

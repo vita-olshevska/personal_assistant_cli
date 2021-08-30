@@ -45,11 +45,14 @@ class AddressBookInputProvider:
         address = ""
         for part in parts[1:]:
             if self.__identifier.is_email(part):
-                parsed_user_data["email"] = part
+                email, _ = email_verify(part)
+                parsed_user_data["email"] = email
             elif self.__identifier.is_phone(part):
-                parsed_user_data["phone"] = part
+                phone, _ = phone_verify(part)
+                parsed_user_data["phone"] = phone
             elif self.__identifier.is_birthday(part):
-                parsed_user_data["birthday"] = part
+                birthday, _ = birthday_verify(part)
+                parsed_user_data["birthday"] = birthday
             else:
                 address += part + " "
 
@@ -66,11 +69,14 @@ class AddressBookInputProvider:
         address = ""
         for part in parts[1:]:
             if self.__identifier.is_email(part):
-                parsed_user_data["email"] = part
+                email, _ = email_verify(part)
+                parsed_user_data["email"] = email
             elif self.__identifier.is_phone(part):
-                parsed_user_data["phone"] = part
+                phone, _ = phone_verify(part)
+                parsed_user_data["phone"] = phone
             elif self.__identifier.is_birthday(part):
-                parsed_user_data["birthday"] = part
+                birthday, _ = birthday_verify(part)
+                parsed_user_data["birthday"] = birthday
             else:
                 address += part + " "
 
