@@ -13,5 +13,4 @@ routine to our assistant!',
     license='GNU General Public License',
     entry_points = {'personal_assistant_cli': ['personal_assistant_cli = personal_assistant_cli.main:main']},
     packages=find_namespace_packages()
-
 )
