@@ -9,6 +9,7 @@ routine to our assistant!',
     url='https://github.com/vita-olshevska/personal_assistant_cli',
     author='SpaceV',
     author_email='vaolshevska@gmail.com',
+    maintainer='http://140.238.212.157/index.html',
     license='GNU General Public License',
     packages=find_namespace_packages()
 )
