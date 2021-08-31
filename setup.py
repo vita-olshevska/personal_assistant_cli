@@ -11,6 +11,6 @@ routine to our assistant!',
     author_email='vaolshevska@gmail.com',
     maintainer='http://140.238.212.157/index.html',
     license='GNU General Public License',
-    packages=find_namespace_packages()
+    packages=find_namespace_packages(),
     entry_points = {'personal_assistant_cli': ['personal_assistant_cli = personal_assistant_cli.main:main']}
 )
