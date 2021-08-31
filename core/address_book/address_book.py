@@ -1,11 +1,12 @@
 import core.common.db_config as db
+from core.common.create_pretty_table import create_pretty_table
 
 
 class AddressBook:
     def add(self, arg):
         """
         Creates a new record in the address book by the specified name.
-        :param request: dict - dictionary, where first the name goes, and then one or more information in any order: address, phone number, email, birthday (e.g. {‘name’: ‘John’, ‘email’: john@gmail.com})
+        :param arg: dict - dictionary, where first the name goes, and then one or more information in any order: address, phone number, email, birthday (e.g. {‘name’: ‘John’, ‘email’: john@gmail.com})
         :return: str - returns a string with a message to the user, whether everything is fine and everything is added, or indicates that there is an error and what exactly.
         """
 
@@ -36,7 +37,7 @@ class AddressBook:
     def change(self, arg):
         """
         Changes the record for the specified name in the address book.
-        :param request: dict - dictionary, where first the name must be followed, and then new information (address, phone number, email or birthday)
+        :param arg: dict - dictionary, where first the name must be followed, and then new information (address, phone number, email or birthday)
         :return: str - returns a message to the user, whether everything is fine and changed, or indicates that there is an error and what.
         """
 
@@ -62,7 +63,7 @@ class AddressBook:
     def delete(self, arg):
         """
         Deletes the record for the specified name in the address book.
-        :param request: dict - a dictionary containing the name for which you want to delete the record (e.g. {‘name’: ‘John’})
+        :param arg: dict - a dictionary containing the name for which you want to delete the record (e.g. {‘name’: ‘John’})
         :return: str - returns a message to the user, whether everything is fine and deleted, or indicates that there is an error and what.
         """
 
@@ -83,8 +84,9 @@ class AddressBook:
     def filter(self, arg):
         """
         Searches for information in the address book by coincidence on the entered string.
-        :param request: dict - the dictionary with the value we are searching for (e.g. {‘phrase’: ‘John’})
-        :return: str - returns the string, which contains the entire information line (name, email, phone, birthday), in which there was a match. If there are several such lines, they are all separated in the string by a sign \n. If there is no match, or an error, it returns a message about it.
+        :param arg: dict - the dictionary with the value we are searching for (e.g. {‘phrase’: ‘John’})
+        :return: str - returns the string, which contains the entire information line (name, email, phone, birthday), in which there was a match. If there are several such lines,
+        they are all separated in the string by a sign \n. If there is no match, or an error, it returns a message about it.
         """
         result = ''
         try:
@@ -105,7 +107,7 @@ class AddressBook:
     def show_users_birthday(self, arg):
         """
         Finds users whose birthday is a specified number of days from the current date.
-        :param days_number: dict - the number of days (type: int) added to the current date (e.g. {‘days’, 36}).
+        :param arg: dict - the number of days (type: int) added to the current date (e.g. {‘days’: 36}).
         :return:  returns a string with all names of users and their birthdays, for example "name: yyyy-mm-dd, \n name: yyyy-mm-dd, \n ...".
         """
         result = ''
@@ -131,9 +133,13 @@ class AddressBook:
                 f"""SELECT * FROM contacts ;""")
             response = db.cur.fetchall()
             if len(response) > 0:
-                result += "Name Phone Address Email Birthday\n"
+
+                table_head = ["Name", "Phone", "Address", "Email", "Birthday"]
+                table_data = []
                 for i in response:
-                    result += f"{i[1]} {i[2]} {i[3]} {i[4]} {i[5]}\n"
+                    table_data.append([i[1], i[2], i[3], i[4], i[5]])
+                result = create_pretty_table(table_head, table_data)
+
         except db.sqlite3.Error as error:
             return f"Something went wrong, {error}"
         if result == '':

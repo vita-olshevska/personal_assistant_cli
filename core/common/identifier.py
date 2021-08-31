@@ -1,4 +1,5 @@
 from core.common.verify import phone_verify, email_verify, birthday_verify
+import re
 
 
 class Identifier:
@@ -14,8 +15,7 @@ class Identifier:
 
     @staticmethod
     def is_birthday(input_data: str) -> bool:
-        birthday_verification_result, _ = birthday_verify(input_data)
-        return birthday_verification_result is not None
+        return bool(re.fullmatch(r'\d{4}-\d{1,2}-\d{1,2}', input_data))
 
     def identify(self, input_data: str) -> str:
         if self.is_phone(input_data):

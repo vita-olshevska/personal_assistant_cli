@@ -1,4 +1,6 @@
 import re
+from datetime import datetime
+
 
 def phone_verify(phone_num):
     """
@@ -94,7 +96,7 @@ please try again')
             if datetime.strptime(clean_birthday, '%Y-%m-%d').date() >= datetime.today().date():
                 return (None, 'The date you entered in the future! Try again in format YYYY-MM-DD')
             else:
-                return clean_birthday
+                return clean_birthday, None
         except ValueError:
             # this except for error in datetime.strptime(clean_birthday, '%Y-%m-%d').date()
             return (None, 'The date you entered cannot exist in our world, all apologies \

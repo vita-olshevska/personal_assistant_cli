@@ -43,6 +43,7 @@ class AddressBookInputProvider:
         parsed_user_data["name"] = parts[0]
 
         address = ""
+        error_msg = ""
         for part in parts[1:]:
             if self.__identifier.is_email(part):
                 email, _ = email_verify(part)
@@ -52,12 +53,18 @@ class AddressBookInputProvider:
                 parsed_user_data["phone"] = phone
             elif self.__identifier.is_birthday(part):
                 birthday, _ = birthday_verify(part)
-                parsed_user_data["birthday"] = birthday
+                if not birthday:
+                    error_msg += "Birthday is not correct.\n"
+                else:
+                    parsed_user_data["birthday"] = birthday
             else:
                 address += part + " "
 
         if address != "":
             parsed_user_data["address"] = address
+
+        if error_msg:
+            return {"error": error_msg}
 
         return parsed_user_data
 
@@ -67,6 +74,7 @@ class AddressBookInputProvider:
         parsed_user_data["name"] = parts[0]
 
         address = ""
+        error_msg = ""
         for part in parts[1:]:
             if self.__identifier.is_email(part):
                 email, _ = email_verify(part)
@@ -76,12 +84,18 @@ class AddressBookInputProvider:
                 parsed_user_data["phone"] = phone
             elif self.__identifier.is_birthday(part):
                 birthday, _ = birthday_verify(part)
-                parsed_user_data["birthday"] = birthday
+                if not birthday:
+                    error_msg += "Birthday is not correct.\n"
+                else:
+                    parsed_user_data["birthday"] = birthday
             else:
                 address += part + " "
 
         if address != "":
             parsed_user_data["address"] = address
+
+        if error_msg:
+            return {"error": error_msg}
 
         return parsed_user_data
 

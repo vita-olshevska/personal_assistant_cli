@@ -1,4 +1,5 @@
 import core.common.db_config as db
+from core.common.create_pretty_table import create_pretty_table
 
 
 class NoteBook:
@@ -6,7 +7,7 @@ class NoteBook:
     def add(self, arg):
         """
         Creates a new record in the notebook by the specified name.
-        :param request: dict - the dictionary with the text of the note (e.g. {‘text’: ‘Lorem ipsum dolor sit amet...’})
+        :param arg: dict - the dictionary with the text of the note (e.g. {‘text’: ‘Lorem ipsum dolor sit amet...’})
         :return: str - returns a string with a message to the user, whether everything is fine and everything is added, or indicates that there is an error and what exactly.
         """
 
@@ -23,7 +24,7 @@ class NoteBook:
     def change(self, arg):
         """
         Changes the record for the specified name in the notebook.
-        :param request: dict - dictionary with the id of the record and new value (e.g. {‘id’: 26, ‘text’: ‘Excepteur sint occaecat...’}) 
+        :param arg: dict - dictionary with the id of the record and new value (e.g. {‘id’: 26, ‘text’: ‘Excepteur sint occaecat...’})
         :return: str - returns a message to the user, whether everything is fine and changed, or indicates that there is an error and what.
         """
         fields = list(arg.keys())
@@ -41,7 +42,7 @@ class NoteBook:
     def delete(self, arg):
         """
         Deletes the record for the specified id in the notebook.
-        :param request: dict - a dictionary containing the id of the record to delete (e.g. {‘id’: 76})
+        :param arg: dict - a dictionary containing the id of the record to delete (e.g. {‘id’: 76})
         :return: str - returns a message to the user, whether everything is fine and deleted, or indicates that there is an error and what.
         """
         try:
@@ -55,15 +56,17 @@ class NoteBook:
     def filter_for_tags(self, arg):
         """
         Search and sort notes by tags.
-        :param request: dict - the dictionary with the text of the tag (e.g. {‘tag’: ‘#Lorem ipsum dolor sit amet...’})
+        :param arg: dict - the dictionary with the text of the tag (e.g. {‘tag’: ‘#Lorem ipsum dolor sit amet...’})
         :return: str - returns the string, which contains the entire information line.
         """
         result = ''
         try:
             db.cur.execute(
-                """SELECT note FROM notes WHERE tag = ?;""", (arg['tag'],))
-            for i in db.cur.fetchall():
-                result += str(i[0]) + '\n'
+                """SELECT * FROM notes WHERE tag = ?;""", (arg['tag'],))
+            response = db.cur.fetchall()
+            if len(response) > 0:
+                table_head = ['Id ',  'Tag', 'Note']
+                result = create_pretty_table(table_head, response)
         except db.sqlite3.Error as error:
             return f"Something went wrong, {error}"
         if result == '':
@@ -74,12 +77,16 @@ class NoteBook:
     def add_tag_to_note(self, arg):
         """
         Add "tags" to notes, keywords describing the topic and subject of the post.
-        :param request: dict - the dictionary with the text of the tag (e.g. {‘tag’: ‘#Lorem ipsum dolor sit amet...’})
+        :param arg: dict - the dictionary with the text of the tag (e.g. {‘tag’: ‘#Lorem ipsum dolor sit amet...’})
         :return: str - returns the string, which contains the entire information line.
         """
+        # add_tag = (arg["id"], arg['tag'], arg['id'])
         add_tag = (arg['tag'], arg['id'])
 
         try:
+            # db.cur.execute("""UPDATE notes
+            #        SET tag = (SELECT tag FROM notes WHERE id = ?) || ' ' || ?
+            #        WHERE id = ?""", add_tag)
             db.cur.execute("""UPDATE notes
                 SET tag = ?
                 WHERE id = ?""", add_tag)
@@ -91,15 +98,17 @@ class NoteBook:
     def search(self, arg):
         """
         Search and sort notes by keywords.
-        :param request: dict - the dictionary with the text of the phrase (e.g. {‘phrase’: ‘Lorem ipsum dolor sit amet...’})
+        :param arg: dict - the dictionary with the text of the phrase (e.g. {‘phrase’: ‘Lorem ipsum dolor sit amet...’})
         :return: str - returns the string, which contains the entire information line.
         """
         result = ''
         try:
             db.cur.execute(
-                """SELECT * FROM notes WHERE note like ? ;""", ('%'+arg['phrase']+'%'))
-            for i in db.cur.fetchall():
-                result += str(i[0]) + '\n'
+                """SELECT * FROM notes WHERE note LIKE ? ;""", ('%'+arg['phrase']+'%',))
+            response = db.cur.fetchall()
+            if len(response) > 0:
+                table_head = ['Id ',  'Tag', 'Note']
+                result = create_pretty_table(table_head, response)
         except db.sqlite3.Error as error:
             return f"Something went wrong, {error}"
         if result == '':
@@ -112,9 +121,11 @@ class NoteBook:
         try:
             db.cur.execute(
                 """SELECT * FROM notes ;""")
-            result += 'Id ' + '   Tag   ' + '   Note   ' + '\n'
-            for i in db.cur.fetchall():
-                result += f"{i[0]} {i[1]} '{i[2]}'\n"
+            response = db.cur.fetchall()
+            if len(response) > 0:
+                table_head = ['Id ',  'Tag', 'Note']
+                result = create_pretty_table(table_head, response)
+
             return result
         except db.sqlite3.Error as error:
             return f"Something went wrong, {error}"

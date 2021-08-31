@@ -6,14 +6,15 @@ import types
 
 
 class ContextAnalyzer:
-    """"""
+
     def analyze(self, request: str) -> (type, types.FunctionType, str):
         """
-         Отримує стрічку-запит від користувача та повертає із цієї стрічки:
-            - хто робить цю команду (AddressBook чи NoteBook).
-            - команду
-            - все інше, що після імені
+        Get string-request from user and return from this the following:
+            - responsible_module - what module should do a command (AddressBook, NoteBook or SortManager);
+            - command - a command for responsible_module;
+            - user_data - everything else left in the string-request
         """
+
         if request == "":
             return None, None, None
 
@@ -42,33 +43,34 @@ class ContextAnalyzer:
             responsible_module = SortManager
             command = SortManager.sort
             user_data = " ".join(words[1:])
-        elif "record" == words[1]:
-            responsible_module = AddressBook
-            if "add" == words[0]:
-                command = AddressBook.add
-            elif "change" == words[0]:
-                command = AddressBook.change
-            elif "delete" == words[0]:
-                command = AddressBook.delete
-            elif "search" == words[0]:
-                command = AddressBook.filter
+        elif len(words) > 1:
+            if "record" == words[1]:
+                responsible_module = AddressBook
+                if "add" == words[0]:
+                    command = AddressBook.add
+                elif "change" == words[0]:
+                    command = AddressBook.change
+                elif "delete" == words[0]:
+                    command = AddressBook.delete
+                elif "search" == words[0]:
+                    command = AddressBook.filter
 
-            user_data = " ".join(words[2:])
-        elif "note" == words[1]:
-            responsible_module = NoteBook
-            if "add" == words[0]:
-                command = NoteBook.add
-            elif "change" == words[0]:
-                command = NoteBook.change
-            elif "delete" == words[0]:
-                command = NoteBook.delete
-            elif "filter" == words[0]:
-                command = NoteBook.filter_for_tags
-            elif "tag" == words[0]:
-                command = NoteBook.add_tag_to_note
-            elif "search" == words[0]:
-                command = NoteBook.search
+                user_data = " ".join(words[2:])
+            elif "note" == words[1]:
+                responsible_module = NoteBook
+                if "add" == words[0]:
+                    command = NoteBook.add
+                elif "change" == words[0]:
+                    command = NoteBook.change
+                elif "delete" == words[0]:
+                    command = NoteBook.delete
+                elif "filter" == words[0]:
+                    command = NoteBook.filter_for_tags
+                elif "tag" == words[0]:
+                    command = NoteBook.add_tag_to_note
+                elif "search" == words[0]:
+                    command = NoteBook.search
 
-            user_data = " ".join(words[2:])
+                user_data = " ".join(words[2:])
 
         return responsible_module, command, user_data
