@@ -7,7 +7,9 @@ comm = input('>>>: ').lower()
 
 def check_command(comm):
     check = process.extractOne(comm, COMMANDS)
-    if 70 < check[1] < 100:
+    if 70 <= check[1] < 100:
         return f'Do you mean: {check[0]}'
     elif check[1] == 100:
         return True
+    elif check[1] < 70:
+        return 'Unknown command'
