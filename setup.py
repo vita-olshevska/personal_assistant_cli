@@ -12,5 +12,5 @@ routine to our assistant!',
     maintainer='http://140.238.212.157/index.html',
     license='GNU General Public License',
     entry_points = {'personal_assistant_cli': ['personal_assistant_cli = personal_assistant_cli.main:main']},
-    packages=find_namespace_packages(),
-)
+    packages=find_namespace_packages()
+    )
