@@ -9,7 +9,10 @@ from core.note_book.note_book_input_provider import NoteBookInputProvider
 from core.sort_manager.sort_manager import SortManager
 from core.context_analyzer.context_analyzer import ContextAnalyzer
 
-if __name__ == "__main__":
+from core.common.help_with_commands import help_with_commands
+
+
+def main():
     address_book = AddressBook()
     address_book_input_provider = AddressBookInputProvider()
 
@@ -18,7 +21,15 @@ if __name__ == "__main__":
 
     sort_manager = SortManager()
     context_analyzer = ContextAnalyzer()
+    hello_phrase = "Hello! \n" \
+                   "I'm your bot - a personal assistant.\n" \
+                   "I can help you with three areas: the AddressBook, the NoteBook, and the SortManager. \n" \
+                   "Just remind that you can use:\n" \
+                   " help - to view a list of all commands and how to use them; \n" \
+                   " off - to end our communication. \n" \
+                   "Let's start! \n"
 
+    print(hello_phrase)
     while True:
         user_request = input(">>> : ")
         responsible_module, command, user_data = context_analyzer.analyze(user_request)
@@ -46,7 +57,9 @@ if __name__ == "__main__":
             else:
                 answer = "Wrong command for SortManager module."
         elif responsible_module == "main":
-            if command == "off":
+            if command == "help":
+                answer = help_with_commands()
+            elif command == "off":
                 cur.close()
                 conn.close()
                 print("Good bye!")
@@ -57,6 +70,8 @@ if __name__ == "__main__":
             answer = "Can not understand what you mean."
 
         print(answer)
+if __name__ == "__main__":
+    main()
 
 
 

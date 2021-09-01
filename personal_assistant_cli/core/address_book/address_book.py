@@ -91,12 +91,15 @@ class AddressBook:
         result = ''
         try:
             db.cur.execute(
-                """SELECT * FROM contacts WHERE name like ? OR phone like ? OR email like ? OR birthday like ?;""", ('%'+arg['phrase']+'%', '%'+arg['phrase']+'%', '%'+arg['phrase']+'%', '%'+arg['phrase']+'%'))
+                """SELECT * FROM contacts WHERE name like ? OR phone like ? OR address like? OR email like ? OR birthday like ?;""",
+                ('%' + arg['phrase'] + '%', '%' + arg['phrase'] + '%', '%' + arg['phrase'] + '%', '%' + arg['phrase'] + '%', '%' + arg['phrase'] + '%'))
             response = db.cur.fetchall()
             if len(response) > 0:
-                result += "Name Phone Address Email Birthday\n"
+                table_head = ["Name", "Phone", "Address", "Email", "Birthday"]
+                table_data = []
                 for i in response:
-                    result += f"{i[1]} {i[2]} {i[3]} {i[4]} {i[5]}\n"
+                    table_data.append([i[1], i[2], i[3], i[4], i[5]])
+                result = create_pretty_table(table_head, table_data)
         except db.sqlite3.Error as error:
             return f"Something went wrong, {error}"
         if result == '':
@@ -113,12 +116,16 @@ class AddressBook:
         result = ''
         val = arg['days'] + 1
         try:
-            # db.cur.execute(
-            #    f"""SELECT name, birthday FROM contacts WHERE strftime('%j', birthday) = strftime('%j', (date('now','+{val} day'))) ;""")
             db.cur.execute(
                 f"""SELECT name, birthday FROM contacts WHERE strftime('%j', birthday) BETWEEN strftime('%j', date('now', '+1 day')) AND strftime('%j', (date('now','+{val} day')));""")
-            for i in db.cur.fetchall():
-                result += str(i[0]) + ': ' + str(i[1]) + '\n'
+            response = db.cur.fetchall()
+            if len(response) > 0:
+                table_head = ["Name", "Birthday"]
+                table_data = []
+                for i in response:
+                    table_data.append([i[0], i[1]])
+                result = create_pretty_table(table_head, table_data)
+
         except db.sqlite3.Error as error:
             return f"Something went wrong, {error}"
         if result == '':

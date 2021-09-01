@@ -70,7 +70,6 @@ class SortManager:
                 file.rename(str(key) + '/' + file.name)
                 return
 
-        print(f"file_path?: {file.name}, file_name: {file_name}, file_extension: {file_extension}")
         file.rename(str(self.__another_path) + '/' + file.name)
 
     def __ignore(self, elem):

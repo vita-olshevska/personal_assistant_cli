@@ -62,7 +62,7 @@ class NoteBook:
         result = ''
         try:
             db.cur.execute(
-                """SELECT * FROM notes WHERE tag = ?;""", (arg['tag'],))
+                """SELECT * FROM notes WHERE tag like ?;""", ('%'+arg['tag']+'%',))
             response = db.cur.fetchall()
             if len(response) > 0:
                 table_head = ['Id ',  'Tag', 'Note']
@@ -80,17 +80,23 @@ class NoteBook:
         :param arg: dict - the dictionary with the text of the tag (e.g. {‘tag’: ‘#Lorem ipsum dolor sit amet...’})
         :return: str - returns the string, which contains the entire information line.
         """
-        # add_tag = (arg["id"], arg['tag'], arg['id'])
-        add_tag = (arg['tag'], arg['id'])
-
+        add_tag = (arg['id'], arg['tag'], arg['id'])
+        add_tag_second = (arg['tag'], arg['id'])
         try:
-            # db.cur.execute("""UPDATE notes
-            #        SET tag = (SELECT tag FROM notes WHERE id = ?) || ' ' || ?
-            #        WHERE id = ?""", add_tag)
-            db.cur.execute("""UPDATE notes
-                SET tag = ?
-                WHERE id = ?""", add_tag)
-            db.conn.commit()
+            db.cur.execute(
+                """SELECT count(tag) FROM notes WHERE id = ?;""", (arg['id'],))
+            all_results = db.cur.fetchall()
+            if all_results[0][0] == 1:
+                db.cur.execute("""UPDATE notes
+                        SET tag = ' ' ||(SELECT tag FROM notes WHERE id = ?) || ' ' || ?
+                        WHERE id = ?;""", add_tag)
+                db.conn.commit()
+            else:
+                db.cur.execute(
+                    """UPDATE notes 
+                    SET tag = ? 
+                    WHERE id = ?;""", add_tag_second)
+                db.conn.commit()
         except db.sqlite3.Error as error:
             return f"Something went wrong, check your id. {error}"
         return 'Tag added'
@@ -122,6 +128,7 @@ class NoteBook:
             db.cur.execute(
                 """SELECT * FROM notes ;""")
             response = db.cur.fetchall()
+
             if len(response) > 0:
                 table_head = ['Id ',  'Tag', 'Note']
                 result = create_pretty_table(table_head, response)
