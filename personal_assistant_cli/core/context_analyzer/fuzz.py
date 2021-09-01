@@ -2,7 +2,6 @@ from fuzzywuzzy import process
 COMMANDS = ['show records', 'show notes', 'add record', 'add note', 'change record', 'add tag',
             'change note', 'delete record', 'delete note', 'search record', 'search note', 'show birthdays',
             'filter note', 'sort', 'help', 'off']
-comm = input('>>>: ').lower()
 
 
 def check_command(comm):
