@@ -2,7 +2,6 @@ from core.address_book.address_book import AddressBook
 from core.note_book.note_book import NoteBook
 from core.sort_manager.sort_manager import SortManager
 from core.context_analyzer.fuzz import check_command
-from core.context_analyzer.fuzz import check_command
 
 import types
 
@@ -25,8 +24,11 @@ class ContextAnalyzer:
 
         check_answer, check_text = check_command(" ".join(words[0:2]))
         if check_answer:
-            if "off" in check_text or "help" in check_text:
-                request = check_text
+            if check_text in ["off", "help", "sort"]:
+                if check_text == "sort":
+                    words[0] = check_text
+                else:
+                    request = check_text
             else:
                 new_command_text = check_text.split()
                 words[0], words[1] = new_command_text[0], new_command_text[1]
@@ -38,7 +40,6 @@ class ContextAnalyzer:
         elif request == "help":
             responsible_module = "main"
             command = "help"
-
         elif "show birthday" in request:
             responsible_module = AddressBook
             command = AddressBook.show_users_birthday

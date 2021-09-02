@@ -70,6 +70,8 @@ def main():
             answer = "Can not understand what you mean."
 
         print(answer)
+
+
 if __name__ == "__main__":
     main()
 
