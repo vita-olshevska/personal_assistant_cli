@@ -1,6 +1,6 @@
-path_address_book = "doc/AddressBook_commands.txt"
-path_note_book = "doc/NoteBook_commands.txt"
-path_sort_manager = "doc/SortManager_commands.txt"
+path_address_book = "personal_assistant_cli/doc/AddressBook_commands.txt"
+path_note_book = "personal_assistant_cli/doc/NoteBook_commands.txt"
+path_sort_manager = "personal_assistant_cli/doc/SortManager_commands.txt"
 
 
 def read_file(path):
