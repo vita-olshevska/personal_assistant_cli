@@ -28,7 +28,7 @@ Note that, the bot chooses the input mod automatically based on the user request
 
 **Description of commands:**
 
-| **AddressBook commands:** |
+| **AddressBook commands:** | |
 | --- |:---   |
 | show records | show all records for AddressBook |
 | add record | add the record (phone, address, email or birthday) to the AddressBook |
