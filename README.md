@@ -29,35 +29,45 @@ Note that, the bot chooses the input mod automatically based on the user request
 **Description of commands:**
 
 | **AddressBook commands:** | |
-| --- |:---   |
-| show records | show all records for AddressBook |
-| add record | add the record (phone, address, email or birthday) to the AddressBook |
-| change record | change some record (phone, address, email or birthday) |
-| delete record | delete the whole record by its name |
-| search record | searches for matches for records |
-| show birthdays | searches for everyone who has a birthday during stated number of days, starting from today |
+| ---- |:------   |
+| *show records* | show all records for AddressBook |
+| *add record* | add the record (phone, address, email or birthday) to the AddressBook |
+| *change record* | change some record (phone, address, email or birthday) |
+| *delete record* | delete the whole record by its name |
+| *search record* | searches for matches for records |
+| *show birthdays* | searches for everyone who has a birthday during stated number of days, starting from today |
+
 | **Or input in 1 line** for AddressBook: |
-| \&lt;command\&gt; \&lt;name\&gt; \&lt;your information\&gt;1. you haven`t write your information for command &quot;delete record&quot;;2. you haven&#39;t write a name for commands: &quot;search record&quot; and &quot;search birthdays&quot;.e.g. \&gt;\&gt;\&gt; delete record Vita\&gt;\&gt;\&gt; search birthdays 56 |
-
-| **NoteBook commands:** |
 | --- |
-| show notes | show all notes for NoteBook |
-| add note | add the note to the NoteBook |
-| add tag | add tag to an existing note |
-| change note | change the note for its id from the table |
-| delete note | delete the whole note by its id |
-| search note | searches for matches for notes |
-| filter note | searches for matches for tags |
+| \<command\> \<name\> \<your information\>
+|1.you haven`t write your information for command \"delete record?";
+|2. you haven\'t write a name for commands: \"search record\" and \"search birthdays\".e.g.
+|\>>> delete record Vita;
+|\>>> search birthdays 56;
+
+| **NoteBook commands:** |    |
+| --- |:---   |
+| *show notes* | show all notes for NoteBook |
+| *add note* | add the note to the NoteBook |
+| *add tag* | add tag to an existing note |
+| *change note* | change the note for its id from the table |
+| *delete note* | delete the whole note by its id |
+| *search note* | searches for matches for notes |
+| *filter note* | searches for matches for tags |
+
 | **Or input in 1 line** for NoteBook: |
-| \&lt;command\&gt; \&lt;id\&gt; \&lt;some text\&gt;
-1. you haven`t write an id for commands: &quot;add note&quot;, &quot;search note&quot;, &quot;filter note&quot;;
- 2. you haven&#39;t write a text for the command &quot;delete note&quot;.e.g. \&gt;\&gt;\&gt; add note Do my homework\&gt;\&gt;\&gt; delete note 4 |
+|:---   |
+| \<command\> \<id\> \<some text\>
+|1. you haven&#39;t write an id for commands: &quot;add note&quot;, &quot;search note&quot;, &quot;filter note&quot;;
+|2. you haven&#39;t write a text for the command &quot;delete note&quot;.e.g.
+|\>>> add note Do my homework;
+|\>>> delete note 4;
 
-| **SearchManager command:** |
-| --- |
-| sort \&lt;path\&gt; | sorts all files by folders (music, videos, pictures, documents, archives, other) |
+| **SearchManager command:** | |
+| --- |:---   |
+| *sort* \<path\> | sorts all files by folders (music, videos, pictures, documents, archives, other) |
 
-| **Another commands:** |
-| --- |
-| help | displays a table of commands for each module |
-| off | turn off the bot |
+| **Another commands:** | |
+| --- |:---   |
+| *help* | displays a table of commands for each module |
+| *off* | turn off the bot |
