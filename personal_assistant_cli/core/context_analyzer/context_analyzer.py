@@ -1,7 +1,7 @@
-from core.address_book.address_book import AddressBook
-from core.note_book.note_book import NoteBook
-from core.sort_manager.sort_manager import SortManager
-from core.context_analyzer.fuzz import check_command
+from personal_assistant_cli.core.address_book.address_book import AddressBook
+from personal_assistant_cli.core.note_book.note_book import NoteBook
+from personal_assistant_cli.core.sort_manager.sort_manager import SortManager
+from personal_assistant_cli.core.context_analyzer.fuzz import check_command
 
 import types
 

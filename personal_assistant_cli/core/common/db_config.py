@@ -1,5 +1,8 @@
 import sqlite3
-conn = sqlite3.connect('project.db')
+import os
+
+print(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'project.db'))
+conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'project.db'))
 cur = conn.cursor()
 cur.execute("""CREATE TABLE IF NOT EXISTS contacts(
    id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -1,4 +1,4 @@
-from core.common.verify import phone_verify, email_verify, birthday_verify
+from personal_assistant_cli.core.common.verify import phone_verify, email_verify, birthday_verify
 import re
 
 

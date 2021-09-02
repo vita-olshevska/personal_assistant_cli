@@ -1,6 +1,6 @@
-from core.address_book.address_book import AddressBook
-from core.common.identifier import Identifier
-from core.common.verify import phone_verify, email_verify, birthday_verify
+from personal_assistant_cli.core.address_book.address_book import AddressBook
+from personal_assistant_cli.core.common.identifier import Identifier
+from personal_assistant_cli.core.common.verify import phone_verify, email_verify, birthday_verify
 
 from types import FunctionType
 from typing import Union

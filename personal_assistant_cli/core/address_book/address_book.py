@@ -1,5 +1,5 @@
-import core.common.db_config as db
-from core.common.create_pretty_table import create_pretty_table
+import personal_assistant_cli.core.common.db_config as db
+from personal_assistant_cli.core.common.create_pretty_table import create_pretty_table
 
 
 class AddressBook:

@@ -1,15 +1,15 @@
-from core.common.db_config import conn, cur
+from personal_assistant_cli.core.common.db_config import conn, cur
 
-from core.address_book.address_book import AddressBook
-from core.address_book.address_book_input_provider import AddressBookInputProvider
+from personal_assistant_cli.core.address_book.address_book import AddressBook
+from personal_assistant_cli.core.address_book.address_book_input_provider import AddressBookInputProvider
 
-from core.note_book.note_book import NoteBook
-from core.note_book.note_book_input_provider import NoteBookInputProvider
+from personal_assistant_cli.core.note_book.note_book import NoteBook
+from personal_assistant_cli.core.note_book.note_book_input_provider import NoteBookInputProvider
 
-from core.sort_manager.sort_manager import SortManager
-from core.context_analyzer.context_analyzer import ContextAnalyzer
+from personal_assistant_cli.core.sort_manager.sort_manager import SortManager
+from personal_assistant_cli.core.context_analyzer.context_analyzer import ContextAnalyzer
 
-from core.common.help_with_commands import help_with_commands
+from personal_assistant_cli.core.common.help_with_commands import help_with_commands
 
 
 def main():
@@ -74,9 +74,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
 

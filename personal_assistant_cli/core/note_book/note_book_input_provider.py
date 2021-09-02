@@ -1,5 +1,5 @@
-from core.note_book.note_book import NoteBook
-from core.common.identifier import Identifier
+from personal_assistant_cli.core.note_book.note_book import NoteBook
+from personal_assistant_cli.core.common.identifier import Identifier
 
 from types import FunctionType
 from typing import Union
